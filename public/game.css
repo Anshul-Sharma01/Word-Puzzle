@@ -8,11 +8,12 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     width: 100vw;
     height: 100vh;
 }
 
-main{
+main, section{
     width: fit-content;
     background-color: whitesmoke;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
@@ -23,6 +24,8 @@ main{
     gap: 20px;
     padding: 20px;
 }
+
+
 
 
 .heading{

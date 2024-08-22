@@ -1,28 +1,37 @@
-"use strict";
-const startBtn = document.getElementById("start-btn");
-const main = document.querySelector("main");
-function checkForDifficulty() {
-    const difficultyLevel = document.getElementById("difficulty-select").value;
-    if (difficultyLevel) {
+
+
+const startBtn = document.getElementById("start-btn") as HTMLButtonElement;
+const main = document.querySelector("main") as HTMLBodyElement;
+
+function checkForDifficulty(): boolean{
+    const difficultyLevel = (document.getElementById("difficulty-select") as HTMLSelectElement).value;
+    
+    if(difficultyLevel){
         return true;
-    }
-    else {
+    }else{
         return false;
     }
+
+
 }
+
+
 startBtn.addEventListener("click", () => {
     const valueSelected = checkForDifficulty();
-    if (valueSelected) {
+    if(valueSelected){
         console.log(valueSelected);
         startBtn.remove();
-    }
-    else {
+    }else{
         alert("Please select the difficulty level first");
     }
 });
-startBtn.addEventListener("click", () => {
+
+
+startBtn.addEventListener("click",() => {
+
     const valueSelected = checkForDifficulty();
-    if (valueSelected) {
+    
+    if(valueSelected){
         const div = document.createElement("div");
         const section = document.createElement("section");
         const h1 = document.createElement("h1");
@@ -32,4 +41,13 @@ startBtn.addEventListener("click", () => {
         section.appendChild(div);
         main.appendChild(section);
     }
-});
+
+})
+
+
+
+
+
+
+
+
