@@ -91,6 +91,19 @@ button:focus {
 
 
 
+.lives{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+    flex-wrap: wrap;
+    width: 200px;
+    height: 40px;
+}
 
 
-
+.lives-icon{
+    width: 40px;
+    font-weight: 700;
+    /* background-color: red; */
+}
