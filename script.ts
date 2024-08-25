@@ -11,6 +11,51 @@ function generateRandomIndex(): number {
     return Math.floor(Math.random() * 50);
 } 
 
+
+function generateRandomNumber(len : number) : number{
+    return Math.floor(Math.random() * len);
+}
+
+function removeRandomLetters(word : string) : { ogWord : string, maskedWord : string } {
+    const len : number = word.length;
+    const numberToRemove : number = Math.max(1, Math.floor(len / 3));
+    const indexToRemove : number[] = [];
+
+    while(indexToRemove.length < numberToRemove){
+        const randomIndex = generateRandomNumber(len);
+        if(!indexToRemove.includes(randomIndex)){
+            indexToRemove.push(randomIndex);
+        }
+    }
+
+    let maskedWord : string = "";
+    for(let i = 0; i < len; i++){
+        if(indexToRemove.includes(i)){
+            maskedWord += "_";
+        }else{
+            maskedWord += word[i];
+        }
+    }
+
+    return { ogWord : word, maskedWord};
+
+}
+
+
+function checkGuess(userInput : string, ogWord : string, maskedWord : string) : string {
+
+    let updatedWord = maskedWord.split('');
+
+    for(let i = 0; i < ogWord.length; i++){
+        if(maskedWord[i] === '_' && userInput === ogWord[i]){
+            updatedWord[i] = userInput;
+        }
+    }
+
+    return updatedWord.join("");
+
+}
+
 function startTimer() : void{
     const div = document.createElement("div") as HTMLDivElement;
     div.setAttribute('class','timer');
