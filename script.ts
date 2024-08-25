@@ -2,65 +2,92 @@ const startBtn = document.getElementById("start-btn") as HTMLButtonElement;
 const main = document.querySelector("main") as HTMLElement;
 
 
-function checkForDifficulty(): boolean {
-    const difficultyLevel = (document.getElementById("difficulty-select") as HTMLSelectElement).value;
-    return difficultyLevel ? true : false;
+const words : String[] = ["APPLE", "RIVER", "HOUSE", "MUSIC", "SUN", "TREE", "BOOK", "PEN", "CHAIR", "WATER", "CLOUD", "STORM", "COFFEE", "LAMP", "CAR", "FIRE", "WIND", "RAIN", "FORK", "PLATE", "ABSTRACT", "CONTEXTUAL", "FRAGMENT", "GENERATOR", "MOSAIC", "PARADOX", "RESILIENT","SYMBOLIC", "VARIABLE", "GRADIENT", "HARMONIZE", "LOGARITHM", "METAPHOR", "SYNTHESIS", "PERSISTENT", "OBSTACLE", "PLATFORM", "QUIETUDE", "LUMINESCENT", "RESONANCE", "ALGORITHM", "BIOSPHERE", "LABYRINTH", "OSCILLATE", "VORTEX", "XEROGRAPHY", "ZEITGEIST", "ACCELERATE", "OBLIQUE", "TERMINAL" ];
+
+
+
+
+function generateRandomIndex(): number {
+    return Math.floor(Math.random() * 50);
+} 
+
+function startTimer() : void{
+    const div = document.createElement("div") as HTMLDivElement;
+    div.setAttribute('class','timer');
+    const p = document.createElement("p") as HTMLParagraphElement;
+    p.innerHTML = `0`;
+    div.appendChild(p);
+    document.querySelector("main")?.appendChild(div);
+    let time = 10;
+    p.innerHTML = time.toString();
+    const timer = setInterval(() => {
+        time -= 1;
+        p.innerHTML = time.toString();
+        if(time <= 0){
+            clearInterval(timer);
+            alert("time's up");
+        }
+    }, 1000);
+    
 }
 
+
+
+
+
+function checkForDifficulty(): boolean {
+    const difficultyLevel = (document.getElementById("difficulty-select") as HTMLSelectElement).value;
+    return Boolean(difficultyLevel);
+}
+
+function createLives(letterCount: number): HTMLDivElement {
+    const div = document.createElement("div");
+    div.setAttribute("class", "lives");
+
+    for (let i = 0; i < letterCount; i++) {
+        const img = document.createElement("img");
+        img.setAttribute("class", "lives-icon");
+        img.src = "./heart.svg";
+        div.appendChild(img);
+    }
+
+    return div;
+}
+
+
+
+
+
 startBtn.addEventListener("click", () => {
-    const valueSelected = checkForDifficulty();
-    if (valueSelected) {
-        console.log(valueSelected);
-        const difficultyLevel = document.getElementById("difficulty-select") as HTMLSelectElement;
-        difficultyLevel.setAttribute("disabled","true");
-        startBtn.remove();
-    } else {
+    if (!checkForDifficulty()) {
         alert("Please select the difficulty level first");
+        return;
     }
-});
 
-let letterCount = 1; // Assuming you want to set a value for letterCount
+    const difficultyLevel = document.getElementById("difficulty-select") as HTMLSelectElement;
+    difficultyLevel.setAttribute("disabled", "true");
+    startBtn.remove();
 
-startBtn.addEventListener("click", () => {
-    const valueSelected = checkForDifficulty();
-
-    if (valueSelected) {
-        const div = document.createElement("div");
-        const section = document.createElement("section");
-        const h1 = document.createElement("h1");
-        const difficultySelected = (document.querySelector("#difficulty-select") as HTMLSelectElement).value;
-
-        if (difficultySelected === 'beginner') {
+    const section = document.createElement("section");
+    const difficultySelected = difficultyLevel.value;
+    let letterCount = 1; 
+    switch (difficultySelected) {
+        case 'beginner':
             letterCount *= 3;
-            for (let i = 0; i < letterCount; i++) {
-                const img = document.createElement("img");
-                img.setAttribute("class","lives-icon");
-                img.src = "./heart.svg";
-                h1.insertAdjacentElement("beforeend", img);
-                div.appendChild(img);
-            }
-        } else if (difficultySelected === 'medium') {
+            break;
+        case 'medium':
             letterCount *= 2;
-            for(let i = 0; i < letterCount; i++){
-                const img = document.createElement("img");
-                img.setAttribute("class","lives-icon");
-                img.src = "./heart.svg";
-                h1.insertAdjacentElement("beforeend",img);
-                div.appendChild(img);
-            }
-        } else if (difficultySelected === 'expert') {
-            for(let i = 0; i < letterCount; i++){
-                const img = document.createElement("img");
-                img.setAttribute("class","lives-icon");
-                img.src = "./heart.svg";
-                h1.insertAdjacentElement("beforeend",img);
-                div.appendChild(img);
-            }
-        }
-
- 
-        div.setAttribute("class", "lives");
-        section.appendChild(div);
-        main.appendChild(section);
+            break;
+        case 'expert':
+            break;
+        default:
+            console.error("Unknown difficulty level");
+            return;
     }
+
+    startTimer();
+
+    const livesDiv = createLives(letterCount);
+    section.appendChild(livesDiv);
+    main.appendChild(section);
 });
