@@ -1,9 +1,43 @@
 "use strict";
 const startBtn = document.getElementById("start-btn");
 const main = document.querySelector("main");
+let numberToRemove;
 const words = ["APPLE", "RIVER", "HOUSE", "MUSIC", "SUN", "TREE", "BOOK", "PEN", "CHAIR", "WATER", "CLOUD", "STORM", "COFFEE", "LAMP", "CAR", "FIRE", "WIND", "RAIN", "FORK", "PLATE", "ABSTRACT", "CONTEXTUAL", "FRAGMENT", "GENERATOR", "MOSAIC", "PARADOX", "RESILIENT", "SYMBOLIC", "VARIABLE", "GRADIENT", "HARMONIZE", "LOGARITHM", "METAPHOR", "SYNTHESIS", "PERSISTENT", "OBSTACLE", "PLATFORM", "QUIETUDE", "LUMINESCENT", "RESONANCE", "ALGORITHM", "BIOSPHERE", "LABYRINTH", "OSCILLATE", "VORTEX", "XEROGRAPHY", "ZEITGEIST", "ACCELERATE", "OBLIQUE", "TERMINAL"];
 function generateRandomIndex() {
     return Math.floor(Math.random() * 50);
+}
+function generateRandomNumber(len) {
+    return Math.floor(Math.random() * len);
+}
+function removeRandomLetters(word) {
+    const len = word.length;
+    numberToRemove = Math.max(1, Math.floor(len / 3));
+    const indexToRemove = [];
+    while (indexToRemove.length < numberToRemove) {
+        const randomIndex = generateRandomNumber(len);
+        if (!indexToRemove.includes(randomIndex)) {
+            indexToRemove.push(randomIndex);
+        }
+    }
+    let maskedWord = "";
+    for (let i = 0; i < len; i++) {
+        if (indexToRemove.includes(i)) {
+            maskedWord += "_";
+        }
+        else {
+            maskedWord += word[i];
+        }
+    }
+    return { ogWord: word, maskedWord };
+}
+function checkGuess(userInput, ogWord, maskedWord) {
+    let updatedWord = maskedWord.split('');
+    for (let i = 0; i < ogWord.length; i++) {
+        if (maskedWord[i] === '_' && userInput === ogWord[i]) {
+            updatedWord[i] = userInput;
+        }
+    }
+    return updatedWord.join("");
 }
 function startTimer() {
     var _a;
@@ -23,6 +57,10 @@ function startTimer() {
             alert("time's up");
         }
     }, 1000);
+}
+function fetchWord() {
+    const randomIndex = generateRandomIndex();
+    return words[randomIndex];
 }
 function checkForDifficulty() {
     const difficultyLevel = document.getElementById("difficulty-select").value;
@@ -64,7 +102,10 @@ startBtn.addEventListener("click", () => {
             return;
     }
     startTimer();
-    const livesDiv = createLives(letterCount);
+    const wordToFind = fetchWord();
+    console.log(wordToFind);
+    removeRandomLetters(wordToFind);
+    const livesDiv = createLives(numberToRemove);
     section.appendChild(livesDiv);
     main.appendChild(section);
 });

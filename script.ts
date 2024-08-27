@@ -1,8 +1,8 @@
 const startBtn = document.getElementById("start-btn") as HTMLButtonElement;
 const main = document.querySelector("main") as HTMLElement;
+let numberToRemove : number;
 
-
-const words : String[] = ["APPLE", "RIVER", "HOUSE", "MUSIC", "SUN", "TREE", "BOOK", "PEN", "CHAIR", "WATER", "CLOUD", "STORM", "COFFEE", "LAMP", "CAR", "FIRE", "WIND", "RAIN", "FORK", "PLATE", "ABSTRACT", "CONTEXTUAL", "FRAGMENT", "GENERATOR", "MOSAIC", "PARADOX", "RESILIENT","SYMBOLIC", "VARIABLE", "GRADIENT", "HARMONIZE", "LOGARITHM", "METAPHOR", "SYNTHESIS", "PERSISTENT", "OBSTACLE", "PLATFORM", "QUIETUDE", "LUMINESCENT", "RESONANCE", "ALGORITHM", "BIOSPHERE", "LABYRINTH", "OSCILLATE", "VORTEX", "XEROGRAPHY", "ZEITGEIST", "ACCELERATE", "OBLIQUE", "TERMINAL" ];
+const words : string[] = ["APPLE", "RIVER", "HOUSE", "MUSIC", "SUN", "TREE", "BOOK", "PEN", "CHAIR", "WATER", "CLOUD", "STORM", "COFFEE", "LAMP", "CAR", "FIRE", "WIND", "RAIN", "FORK", "PLATE", "ABSTRACT", "CONTEXTUAL", "FRAGMENT", "GENERATOR", "MOSAIC", "PARADOX", "RESILIENT","SYMBOLIC", "VARIABLE", "GRADIENT", "HARMONIZE", "LOGARITHM", "METAPHOR", "SYNTHESIS", "PERSISTENT", "OBSTACLE", "PLATFORM", "QUIETUDE", "LUMINESCENT", "RESONANCE", "ALGORITHM", "BIOSPHERE", "LABYRINTH", "OSCILLATE", "VORTEX", "XEROGRAPHY", "ZEITGEIST", "ACCELERATE", "OBLIQUE", "TERMINAL" ];
 
 
 
@@ -18,7 +18,7 @@ function generateRandomNumber(len : number) : number{
 
 function removeRandomLetters(word : string) : { ogWord : string, maskedWord : string } {
     const len : number = word.length;
-    const numberToRemove : number = Math.max(1, Math.floor(len / 3));
+    numberToRemove = Math.max(1, Math.floor(len / 3));
     const indexToRemove : number[] = [];
 
     while(indexToRemove.length < numberToRemove){
@@ -78,6 +78,10 @@ function startTimer() : void{
 
 
 
+function fetchWord() : string {
+    const randomIndex = generateRandomIndex();
+    return words[randomIndex];
+}
 
 
 function checkForDifficulty(): boolean {
@@ -132,7 +136,10 @@ startBtn.addEventListener("click", () => {
 
     startTimer();
 
-    const livesDiv = createLives(letterCount);
+    const wordToFind : string = fetchWord();
+    console.log(wordToFind);
+    removeRandomLetters(wordToFind);
+    const livesDiv = createLives(numberToRemove);
     section.appendChild(livesDiv);
     main.appendChild(section);
 });
