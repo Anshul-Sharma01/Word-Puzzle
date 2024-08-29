@@ -1,10 +1,10 @@
-*{
+* {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
 }
 
-body{
+body {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,10 +13,10 @@ body{
     height: 100vh;
 }
 
-main, section{
+main, section {
     width: fit-content;
     background-color: whitesmoke;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,17 +25,13 @@ main, section{
     padding: 20px;
 }
 
-
-
-
-.heading{
+.heading {
     text-transform: uppercase;
     color: red;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     letter-spacing: 20px;
     font-weight: 700;
     font-size: 30px;
-
 }
 
 #difficulty-select {
@@ -52,19 +48,15 @@ main, section{
     transition: border-color 0.3s;
 }
 
-/* Styling options */
 #difficulty-select option {
     padding: 10px;
     background-color: #fff;
     color: #333;
-    
 }
 
-/* Styling when select is focused */
 #difficulty-select:focus {
     border-color: #888;
 }
-
 
 button {
     padding: 10px 20px;
@@ -87,38 +79,33 @@ button:focus {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
-/* Optional: Custom arrow for the select dropdown */
-
-
-
-.lives{
+.lives {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap:5px;
+    gap: 5px;
     flex-wrap: wrap;
     width: 200px;
     height: 40px;
 }
 
-
-.lives-icon{
-    width: 40px;
-    font-weight: 700;
+.lives-icon {
+    width: 30px;
+    height: 30px;
 }
 
 .timer {
     font-family: 'Courier New', Courier, monospace;
-    font-size: 2rem; 
-    color: #333; 
-    background-color: #f0f0f0; 
-    padding: 10px 20px; 
-    border-radius: 8px; 
-    border: 2px solid #ccc; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    text-align: center; 
-    width: fit-content; 
-    margin-top: 20px; 
+    font-size: 2rem;
+    color: #333;
+    background-color: #f0f0f0;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: fit-content;
+    margin-top: 20px;
     animation: pulse 1s infinite;
 }
 
@@ -132,4 +119,40 @@ button:focus {
     100% {
         transform: scale(1);
     }
+}
+
+.input-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.input-container input {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    padding: 4px;
+    font-size: 1.2rem;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.inputHere {
+    background-color: #fff;
+    border: 2px solid #007bff;
+    color: #333;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+input:not(.inputHere) {
+    border: none;
+    background-color: #eee;
+    color: #333;
+    font-weight: normal;
 }

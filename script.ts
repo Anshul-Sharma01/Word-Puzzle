@@ -18,7 +18,7 @@ function generateRandomNumber(len : number) : number{
 
 function removeRandomLetters(word : string) : { ogWord : string, maskedWord : string } {
     const len : number = word.length;
-    numberToRemove = Math.max(1, Math.floor(len / 3));
+    numberToRemove = Math.max(1, Math.floor(len / 2));
     const indexToRemove : number[] = [];
 
     while(indexToRemove.length < numberToRemove){
@@ -104,6 +104,26 @@ function createLives(letterCount: number): HTMLDivElement {
 }
 
 
+function createInputDiv(maskedWord: string) {
+    const div = document.createElement("div");
+    div.classList.add("input-container"); 
+
+    for (let i = 0; i < maskedWord.length; i++) {
+        const inp = document.createElement("input");
+        inp.setAttribute('class', 'userInput');
+        if (maskedWord[i] === '_') {
+            inp.setAttribute('class', 'inputHere');
+            
+        } else {
+            inp.setAttribute('disabled', 'true');
+            inp.setAttribute('class', 'inputHere');
+            inp.value = maskedWord[i];
+        }
+        div.appendChild(inp);
+    }
+    
+    return div;
+}
 
 
 
@@ -138,8 +158,11 @@ startBtn.addEventListener("click", () => {
 
     const wordToFind : string = fetchWord();
     console.log(wordToFind);
-    removeRandomLetters(wordToFind);
+    const { ogWord, maskedWord } = removeRandomLetters(wordToFind);
+    console.log(ogWord, maskedWord);
     const livesDiv = createLives(numberToRemove);
     section.appendChild(livesDiv);
+
     main.appendChild(section);
+    main.appendChild(createInputDiv(maskedWord));
 });

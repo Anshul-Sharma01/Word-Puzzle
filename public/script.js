@@ -11,7 +11,7 @@ function generateRandomNumber(len) {
 }
 function removeRandomLetters(word) {
     const len = word.length;
-    numberToRemove = Math.max(1, Math.floor(len / 3));
+    numberToRemove = Math.max(1, Math.floor(len / 2));
     const indexToRemove = [];
     while (indexToRemove.length < numberToRemove) {
         const randomIndex = generateRandomNumber(len);
@@ -77,6 +77,24 @@ function createLives(letterCount) {
     }
     return div;
 }
+function createInputDiv(maskedWord) {
+    const div = document.createElement("div");
+    div.classList.add("input-container");
+    for (let i = 0; i < maskedWord.length; i++) {
+        const inp = document.createElement("input");
+        inp.setAttribute('class', 'userInput');
+        if (maskedWord[i] === '_') {
+            inp.setAttribute('class', 'inputHere');
+        }
+        else {
+            inp.setAttribute('disabled', 'true');
+            inp.setAttribute('class', 'inputHere');
+            inp.value = maskedWord[i];
+        }
+        div.appendChild(inp);
+    }
+    return div;
+}
 startBtn.addEventListener("click", () => {
     if (!checkForDifficulty()) {
         alert("Please select the difficulty level first");
@@ -104,8 +122,10 @@ startBtn.addEventListener("click", () => {
     startTimer();
     const wordToFind = fetchWord();
     console.log(wordToFind);
-    removeRandomLetters(wordToFind);
+    const { ogWord, maskedWord } = removeRandomLetters(wordToFind);
+    console.log(ogWord, maskedWord);
     const livesDiv = createLives(numberToRemove);
     section.appendChild(livesDiv);
     main.appendChild(section);
+    main.appendChild(createInputDiv(maskedWord));
 });
