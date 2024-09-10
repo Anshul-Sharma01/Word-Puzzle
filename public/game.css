@@ -85,8 +85,8 @@ button:focus {
     align-items: center;
     gap: 5px;
     flex-wrap: wrap;
-    width: 200px;
-    height: 40px;
+    width: fit-content;
+    height: fit-content;
 }
 
 .lives-icon {

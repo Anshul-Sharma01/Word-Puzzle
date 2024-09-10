@@ -2,6 +2,8 @@
 const startBtn = document.getElementById("start-btn");
 const main = document.querySelector("main");
 let numberToRemove;
+let difficultySelected;
+let livesToShow = 0;
 const words = ["APPLE", "RIVER", "HOUSE", "MUSIC", "SUN", "TREE", "BOOK", "PEN", "CHAIR", "WATER", "CLOUD", "STORM", "COFFEE", "LAMP", "CAR", "FIRE", "WIND", "RAIN", "FORK", "PLATE", "ABSTRACT", "CONTEXTUAL", "FRAGMENT", "GENERATOR", "MOSAIC", "PARADOX", "RESILIENT", "SYMBOLIC", "VARIABLE", "GRADIENT", "HARMONIZE", "LOGARITHM", "METAPHOR", "SYNTHESIS", "PERSISTENT", "OBSTACLE", "PLATFORM", "QUIETUDE", "LUMINESCENT", "RESONANCE", "ALGORITHM", "BIOSPHERE", "LABYRINTH", "OSCILLATE", "VORTEX", "XEROGRAPHY", "ZEITGEIST", "ACCELERATE", "OBLIQUE", "TERMINAL"];
 function generateRandomIndex() {
     return Math.floor(Math.random() * 50);
@@ -32,12 +34,15 @@ function removeRandomLetters(word) {
 }
 function checkGuess(userInput, ogWord, maskedWord) {
     let updatedWord = maskedWord.split('');
+    let guessCorrect = true;
     for (let i = 0; i < ogWord.length; i++) {
         if (maskedWord[i] === '_' && userInput === ogWord[i]) {
             updatedWord[i] = userInput;
+            guessCorrect = true;
         }
     }
-    return updatedWord.join("");
+    let newOgWord = updatedWord.join("");
+    return { newOgWord, guessCorrect };
 }
 function startTimer() {
     var _a;
@@ -69,7 +74,14 @@ function checkForDifficulty() {
 function createLives(letterCount) {
     const div = document.createElement("div");
     div.setAttribute("class", "lives");
-    for (let i = 0; i < letterCount; i++) {
+    livesToShow = letterCount;
+    if (difficultySelected === 'beginner') {
+        livesToShow *= 3;
+    }
+    else if (difficultySelected === 'medium') {
+        livesToShow *= 2;
+    }
+    for (let i = 0; i < livesToShow; i++) {
         const img = document.createElement("img");
         img.setAttribute("class", "lives-icon");
         img.src = "./heart.svg";
@@ -77,12 +89,20 @@ function createLives(letterCount) {
     }
     return div;
 }
+function updateLives() {
+    const livesDiv = document.querySelector(".lives");
+    if (livesDiv && livesToShow > 0) {
+        livesToShow--;
+    }
+    livesDiv.removeChild(livesDiv.lastChild);
+}
 function createInputDiv(maskedWord) {
     const div = document.createElement("div");
     div.classList.add("input-container");
     for (let i = 0; i < maskedWord.length; i++) {
         const inp = document.createElement("input");
         inp.setAttribute('class', 'userInput');
+        inp.setAttribute('maxLength', '1');
         if (maskedWord[i] === '_') {
             inp.setAttribute('class', 'inputHere');
         }
@@ -104,21 +124,7 @@ startBtn.addEventListener("click", () => {
     difficultyLevel.setAttribute("disabled", "true");
     startBtn.remove();
     const section = document.createElement("section");
-    const difficultySelected = difficultyLevel.value;
-    let letterCount = 1;
-    switch (difficultySelected) {
-        case 'beginner':
-            letterCount *= 3;
-            break;
-        case 'medium':
-            letterCount *= 2;
-            break;
-        case 'expert':
-            break;
-        default:
-            console.error("Unknown difficulty level");
-            return;
-    }
+    difficultySelected = difficultyLevel.value;
     startTimer();
     const wordToFind = fetchWord();
     console.log(wordToFind);
